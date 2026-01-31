@@ -1,0 +1,46 @@
+Batch normalization  => Gaussian distribution 
+linear model compute on input => magnitutde of the value changes (ex: in the same layer, 
+                                                                  input around 1.0,  output around 2.0)
+=> changes a lot on output => changes a lot on loss (because we calculate loss based on outputs)
+=> changes a lot on gradient (gradient is the value we use to update weights and biases)
+=> changes a lot on the updated weights and biases
+=> the updated weights and biases oscilated (this word is used by @umar) a lot 
+>< we want to keep the weights when the output value distribution changes
+=> the learning is slow 
+
+
+Solution:
+steps:
+1. calculate the statistics of the input feature matrix:
+  calculate the mean, the variance
+use the formula (x(normalized)^k = (x^k - E[x^k]) / squrt(Var[x^k])) (Gaussian distribution)
+=> keep the distribution of the input value to a fixed gap (ex: 0 to 1), 
+                                  the model no more focus on the changes in magnitude of the input
+
+
+Layer Normalization
+(draw a feaure x batch matrix)
+the Problem with Batch distribution: the statistics is calculated along the batch dimension
+: when calculating the mean (sum/batch dimension), we are mixing the features (sum) 
+and then divided by the batch dimension
+=> to have good result, we need a big batch dimension 
+                                      (why? ex: we have batch_dim = 2; this batch we calculated mean(1) = 1, the next batch we caluculate mean(2) = 2)
+                                      => the mean changes a lot after batches (covariate shift)
+
+Solution of Layer Normalization:
+(draw the feature x batch matrix)
+calculate the statistics along the Feature dimension/ item dimension
+=> muy and sigma (of the statistics calculation) is dependent on the item itself only, 
+                                                      instead of what items it comes with.
+caluculate: avaerage of the dimension of each item (items are treated independently)  
+=> the training is more stable because we are not forced to use big batch size.
+
+
+Coding SigLip
+(insert the procedure of the embeddings)
+
+(insert the procedure of the vision encoder)
+
+code the FFN then Multi-head Self-attention
+
+
